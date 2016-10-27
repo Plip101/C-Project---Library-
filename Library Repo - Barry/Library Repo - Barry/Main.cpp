@@ -6,7 +6,7 @@
 #include <vector>
 #include <list>
 
-void PrintList(list<Book>& books)
+/*void PrintList(list<Book>& books)
 {
 	cout << "Book names: " << endl;
 	list<Book>::iterator pos;
@@ -14,7 +14,31 @@ void PrintList(list<Book>& books)
 	{
 		cout << "Name: " << pos->getTitle() << endl;
 	}
+}*/
+void searchForBookByISBN(list<Book>& books, long long int search)
+{
+	list<Book>::iterator pos;
+	pos = books.begin();
+	for (pos = books.begin(); pos != books.end(); pos++){
+		
+		if(search == pos->getISBN())
+		{
+			cout << "This book has that ISBN: "<< pos->getTitle() << endl;
+			break;
+		}
+		else{
+			cout << "No book with that ISBN" << endl;
+			break;
+		}
+	}
 }
+void bookav(list<Book>& books, bool search)
+{
+
+
+}
+	
+
 
 void main()
 {
@@ -31,7 +55,11 @@ void main()
 	books.push_back(*it);
 	books.push_back(*tgm);
 	books.push_back(*b);
-
-	PrintList(books);
+	long long int search;
+	string titlesearch;
+	cout<<"Please enter the ISBN"<<endl;
+	cin >> search;
+	//PrintList(books);
+	searchForBookByISBN(books, search);
 	system("pause");
 }
