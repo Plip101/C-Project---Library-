@@ -15,7 +15,7 @@
 		cout << "Name: " << pos->getTitle() << endl;
 	}
 }*/
-void searchForBookByISBN(list<Book>& books, long long int search)
+/*void searchForBookByISBN(list<Book>& books, long long int search)
 {
 	list<Book>::iterator pos;
 	pos = books.begin();
@@ -31,13 +31,41 @@ void searchForBookByISBN(list<Book>& books, long long int search)
 			break;
 		}
 	}
-}
-void bookav(list<Book>& books, bool search)
+}*/
+
+
+void printDetialsStart(Book * first)
 {
+	cout<< "___________________" <<endl;
+	Book* nextBook = first;
+	while(nextBook != NULL)
+	{
+		cout<< "Books Start to End: " << nextBook->getTitle()<<endl;
 
+		nextBook = nextBook->getNext();
+	}
+	cout<< "___________________" <<endl;
 
 }
+Book* searchByName(string name, Book* first)
+{
+	Book* nextBook = first;
+	while(nextBook != NULL)
+	{
+		if(name == nextBook->getTitle())
+		{
+			cout << nextBook->getTitle() << endl;
+			
+			
+		}
+		else 
+		{
+			nextBook = nextBook->getNext();		
+		}
+	}
+	return NULL;
 	
+}
 
 
 void main()
@@ -48,18 +76,22 @@ void main()
 	Book *tgm = new Book("The Green Mile", "Stephen King",1234567894567,false);
 	Book *b = new Book("Barry Bio", "Barry O' Brien",1234567895678,true); 
 
+	tkamb->setNext(sl);
+	sl->setNext(it);
+	it->setNext(tgm);
+	tgm->setNext(b);
 
-	list<Book> books;
-	books.push_back(*tkamb);
-	books.push_back(*sl);
-	books.push_back(*it);
-	books.push_back(*tgm);
-	books.push_back(*b);
+	b->setPrev(tgm);
+	tgm->setPrev(it);
+	it->setPrev(sl);
+	sl->setPrev(tkamb);
+	
 	long long int search;
 	string titlesearch;
-	cout<<"Please enter the ISBN"<<endl;
-	cin >> search;
-	//PrintList(books);
-	searchForBookByISBN(books, search);
+	
+	printDetialsStart(tkamb);
+	cout << "Book Name: " << endl;
+	cin >> titlesearch;
+	searchByName(titlesearch, tkamb);
 	system("pause");
 }
