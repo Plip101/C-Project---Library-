@@ -55,7 +55,7 @@ Book* searchByName(string name, Book* first)
 		if(name == nextBook->getTitle())
 		{
 			cout << nextBook->getTitle() << endl;
-			
+			return 0;
 			
 		}
 		else 
