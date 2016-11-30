@@ -1,6 +1,7 @@
 #ifndef Book_H
 #define Book_H
 #include <iostream>
+#include "User.h"
 using namespace std;
 
 
@@ -13,6 +14,7 @@ private:
 	bool av;
 	Book* next;
 	Book* prev;
+	User* currentHolder;
 		
 
 public:
@@ -24,7 +26,7 @@ public:
 	bool getAv();
 	Book* getNext();
 	Book* getPrev();
-
+	User* getCurrentHolder() const;
 
 	void setTitle(string titleParam);
 	void setAuthor(string authorParam);
@@ -32,7 +34,11 @@ public:
 	void setAv(bool av);
 	void setNext(Book* nextParam);
 	void setPrev(Book* prevParam);
+	void setCurrentHolder(User* CurrentHolderParam);
+	void printBook();
 
+
+	
 	
 
 };
