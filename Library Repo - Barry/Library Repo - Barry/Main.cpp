@@ -10,38 +10,40 @@ void main()
 	unsigned int UserChoice = 0;//Choice int for User Screen
 	unsigned int AdminChoice = 0;//Choice int for Admin Screen
 
+	//Creating Books
 	Book *tkamb = new Book("To Kill A Mocking Bird", "Harper Lee",1234567891234,false);
 	Book *sl = new Book("Schindlers List", "Thomas Keneally",1234567892345,false);
 	Book *it = new Book("IT", "Stephen King",1234567893456,true);
 	Book *tgm = new Book("The Mile", "Andrew Christ",1234567894567,false);
 	Book *b = new Book("Barry Bio", "Barry O' Brien",1234567895678,true); 
 	
-	tkamb->setNext(sl);
-	sl->setNext(it);
-	it->setNext(tgm);
-	tgm->setNext(b);
+	tkamb->setNext(sl); //Set Next in custom linked list
+	sl->setNext(it);//Set Next in custom linked list
+	it->setNext(tgm);//Set Next in custom linked list
+	tgm->setNext(b);//Set Next in custom linked list
 
-	b->setPrev(tgm);
-	tgm->setPrev(it);
-	it->setPrev(sl);
-	sl->setPrev(tkamb);
+	b->setPrev(tgm);//Set Previous in custom linked list
+	tgm->setPrev(it);//Set Previous in custom linked list
+	it->setPrev(sl);//Set Previous in custom linked list
+	sl->setPrev(tkamb);//Set Previous in custom linked list
 
-
+	//Creating Users
 	User *Barry = new User("Barry","O'Brien");
 	User *Brendan = new User("Bredan","Potts");
 	User *John = new User("John","Barret");
 
 
-	Barry->setNext(Brendan);
-	Brendan->setNext(John);
-	John->setPrev(Brendan);
-	Brendan->setPrev(Barry);
+	Barry->setNext(Brendan);//Set Next in custom linked list
+	Brendan->setNext(John);//Set Next in custom linked list
+	John->setPrev(Brendan);//Set Previous in custom linked list
+	Brendan->setPrev(Barry);//Set Previous in custom linked list
 
-	Barry->setIsAdmin(true);
+	Barry->setIsAdmin(true); //Setting user as admin
+
 	User* firstUserPtr = Barry;//Pointer to firstUser in list
 	User* CurrentUser = John;//Pointer toCurrent user, Does not matter at beginning of program
-	Book* CurrentBookptr = tkamb;
-	Book* firstBookptr = tkamb;
+	Book* CurrentBookptr = tkamb; // Pointer to current book
+	Book* firstBookptr = tkamb; // Pointer to first book in list
 
 	string search;
 	long long int numsearch;
@@ -62,8 +64,8 @@ void main()
 				}
 				else//Invalid Choice
 				{
-					std::cout<<"Error,Choice not valid!\nPlease Enter your choice: ";
-					std::cin>>GuestChoice;
+					cout<<"Error,Choice not valid!\nPlease Enter your choice: ";
+					cin>>GuestChoice;
 				}
 			}
 
@@ -83,7 +85,7 @@ void main()
 					cout << "Enter Title you want to search\n";
 					cin.clear();
 					cin.sync();
-					getline(std::cin, search);
+					getline(std::cin, search); // Allows me to take in strings WITH Spaces
 					CurrentBookptr = searchByName(search,firstBookptr);//Searching Books and setting CurrentBookptr to book selected
 					checkOutBook(CurrentBookptr,CurrentUser);//Checking out book function is called 
 				}
@@ -97,8 +99,8 @@ void main()
 				}
 				else
 				{
-					std::cout<<"Error,Choice not valid!\nPlease Enter your choice: ";
-					std::cin>>UserChoice;
+					cout<<"Error,Choice not valid!\nPlease Enter your choice: ";
+					cin>>UserChoice;
 				}
 			}
 		}
@@ -120,84 +122,14 @@ void main()
 			}
 			else//If user does not have admin permission
 			{
-				std::cout<<"User is not an admin\n";
-				std::cout<<"----------------------------------------------------\n\n";
+				cout<<"User is not an admin\n";
+				cout<<"----------------------------------------------------\n\n";
 			}
 		}
 		
 		
 	 
-		
-		
-
-	/*if ( selection == 1)
-	{
-		printDetialsStart(tkamb);
-
-	}
-	else if (selection == 2)
-	{
-		cout << "Would you like to search by: " << endl;
-		cout << "1: Title" << endl << "2: Author" << endl << "3: ISBN" <<endl;
-		cin >> choice;
-		if (choice == 1)
-		{
-			cout << "Enter the title you want to search: " << endl;
-			cin.clear();
-			cin.sync();
-			getline(std::cin, search);
-
-			
-			Book* found = searchByName(search, tkamb);
-			if(found != NULL)
-			{
-				cout<<"Found title: "<< endl<<found->getTitle()<<endl << found->getAuthor() << endl << found->getISBN() << endl;
-			}
-			else
-			{
-				cout<<"Title not found"<<endl;
-			}
-			
-		}
-		else if (choice == 2)
-		{
-			cout << "Enter the author you want to search: " << endl;
-			cin.clear();
-			cin.sync();
-			getline(std::cin, search);
-
-			Book* found = searchByAuthor(search,tkamb);
-			if(found != NULL)
-			{
-				cout<<"Found Author: "<< endl <<found->getTitle()<<endl << found->getAuthor() << endl << found->getISBN()<< endl;
-			}
-			else
-			{
-				cout<<"Author not found"<<endl;
-			}
-		}
-		else if (choice == 3)
-		{
-			cout << "Enter the ISBN you want to search: " << endl;
-			cin >> numsearch;
-
-			Book* found = searchByISBN(numsearch,tkamb);
-			if(found != NULL)
-			{
-				cout<<"Found ISBN: "<< endl <<found->getTitle()<<endl << found->getAuthor() << endl << found->getISBN()<< endl;
-			}
-			else
-			{
-				cout<<"ISBN not found"<<endl;
-			}
-		}
-		else{cout << "Not a valid option";}
-		
-	}
-	else{cout<<"Not a valid option";}
 	
-
-	*/
 	system("pause");
 	
 }

@@ -4,7 +4,7 @@ Book* searchBooks(Book* Bookptr)//Takes in firstBook in List as a parameter and 
 	unsigned int TypeChoice = 0;
 	bool isAvailable = false;
 	bool isfound = false;
-	std::string search;
+	string search;
 	unsigned int numsearch;
 	while(TypeChoice != 9)
 	{
@@ -19,9 +19,9 @@ Book* searchBooks(Book* Bookptr)//Takes in firstBook in List as a parameter and 
 			cout << "Enter Title you want to search\n";
 			cin.clear();
 			cin.sync();
-			getline(std::cin, search);
-			Book* found = searchByName(search,Bookptr);
-			if(found != NULL)
+			getline(std::cin, search); //Allows to take in string WITH spaces
+			Book* found = searchByName(search,Bookptr); //Calls fucntion to search by title and returns
+			if(found != NULL) // If title found, prints out details
 			{
 				cout<<"Found title: "<< endl<<found->getTitle()<<endl << found->getAuthor() << endl << found->getISBN() << endl;
 				cout<<"-------------------------------------------------------------------\n";
@@ -39,7 +39,7 @@ Book* searchBooks(Book* Bookptr)//Takes in firstBook in List as a parameter and 
 			}	
 			else
 			{
-				cout<<"Title not found"<<endl;
+				cout<<"Title not found"<<endl; // if title is not found
 			}
 			break;
 		}
@@ -48,10 +48,10 @@ Book* searchBooks(Book* Bookptr)//Takes in firstBook in List as a parameter and 
 				cout << "Enter Author you want to search\n";
 				cin.clear();
 				cin.sync();
-				getline(std::cin, search);
+				getline(std::cin, search);//Allows to take in string WITH spaces
 
-				Book* found = searchByAuthor(search,Bookptr);
-				if(found != NULL)
+				Book* found = searchByAuthor(search,Bookptr);//Calls fucntion to search by author and returns
+				if(found != NULL)// If author found, prints out details
 				{
 					cout<<"Found Author: "<< endl <<found->getTitle()<<endl << found->getAuthor() << endl << found->getISBN()<< endl;
 					cout<<"-------------------------------------------------------------------\n";	
@@ -77,9 +77,9 @@ Book* searchBooks(Book* Bookptr)//Takes in firstBook in List as a parameter and 
 		if(TypeChoice == 3)
 				{
 				cout << "Enter ISBN you want to search\n";
-				cin >> numsearch;
-				Book* found = searchByISBN(numsearch,Bookptr);
-				if(found != NULL)
+				cin >> numsearch; // takes in isbn to search
+				Book* found = searchByISBN(numsearch,Bookptr); //Calls search by isbn fucntion
+				if(found != NULL)// If isbn found, prints out details
 				{
 					cout<<"Found ISBN: "<< endl <<found->getTitle()<<endl << found->getAuthor() << endl << found->getISBN()<< endl;
 					cout<<"-------------------------------------------------------------------\n";
@@ -109,8 +109,8 @@ Book* searchBooks(Book* Bookptr)//Takes in firstBook in List as a parameter and 
 
 if (Bookptr == nullptr)
 		{
-			std::cout<<"No Book Found\n";
-			std::cout<<"-------------------------------------------------------------------\n";
+			cout<<"No Book Found\n";
+			cout<<"-------------------------------------------------------------------\n";
 			return Bookptr;
 		}
 
@@ -141,7 +141,7 @@ void printDetialsStart(Book * first)
 	cout<< "___________________" <<endl;
 
 }
-Book* searchByName(string name, Book* first)
+Book* searchByName(string name, Book* first)//Gets called in search method, takes in title to search and first book
 {
 	Book* nextBook = first;
 	while(nextBook != NULL)
@@ -158,7 +158,7 @@ Book* searchByName(string name, Book* first)
 	return NULL;
 	
 }
-Book* searchByAuthor(string name, Book* first)
+Book* searchByAuthor(string name, Book* first)//Gets called in search method, takes in author to search and first book
 {
 	Book* nextBook = first;
 	while(nextBook != NULL)
@@ -175,7 +175,7 @@ Book* searchByAuthor(string name, Book* first)
 	return NULL;
 	
 }
-Book* searchByISBN(long long int search, Book* first)
+Book* searchByISBN(long long int search, Book* first)//Gets called in search method, takes in number to search and first book
 {
 	Book* nextBook = first;
 	while(nextBook != NULL)
@@ -196,28 +196,28 @@ User* login(User* RegUserptr)//Takes in firstUser in list as a parameter and ret
 {
 	User* Beginningptr = RegUserptr;
 	bool isfound = false;
-	std::string userNameParam;
-	std::string passwordParam;
+	string userNameParam;
+	string passwordParam;
 	while(isfound == false)
 	{
-		std::cout<<"Please enter your UserName: ";
-		std::cin>>userNameParam;
+		cout<<"Please enter your UserName: ";
+		cin>>userNameParam;
 		while (RegUserptr != nullptr)
 		{
 			if(RegUserptr->getName() == userNameParam)
 			{
-				std::cout<<"User Found!\nPlease enter your password: ";
-				std::cin>>passwordParam;
+				cout<<"User Found!\nPlease enter your password: ";
+				cin>>passwordParam;
 				if (RegUserptr->getPassword() == passwordParam)
 				{
-					std::cout<<"Password Correct!\n";
-					std::cout<<"-------------------------------------------------------------------\n";
+					cout<<"Password Correct!\n";
+					cout<<"-------------------------------------------------------------------\n";
 					return RegUserptr;
 				}
 			}
 			RegUserptr = RegUserptr->getNext();
 		}
-		std::cout<<"Error UserName not found\n";
+		cout<<"Error UserName not found\n";
 		RegUserptr = Beginningptr;
 	}
 }
@@ -237,7 +237,7 @@ void checkOutBook(Book* BookPtr,User* RegUserPtr)
 		}
 		else
 		{
-			std::cout<<"You chose not to check out this book.\n";
+			cout<<"You chose not to check out this book.\n";
 		}
 	}
 	else if(BookPtr->getAv() == false)
@@ -251,7 +251,7 @@ void checkInBook(Book* BookPtr)//Takes in CurrentBook and setsCurrent Holder to 
 {
 	BookPtr->setCurrentHolder(NULL);
 	BookPtr->setAv(true);
-	std::cout<<"Thank you for checking back in this book\n";
+	cout<<"Thank you for checking back in this book\n";
 }
 
 void searchCheckoutBooks(Book* BookPtr,User* RegUserPtr)//Takes in FirstBook as a pointer and Current RegUser as a pointer and prints out all books User has checked out
@@ -262,9 +262,9 @@ void searchCheckoutBooks(Book* BookPtr,User* RegUserPtr)//Takes in FirstBook as 
 		{
 			unsigned int checkChoice;
 			BookPtr->printBook();
-			std::cout<<"Press 1 to return this book:\n";
-			std::cout<<"Press 2 to continue searching:\nYour choice: ";
-			std::cin>>checkChoice;
+			cout<<"Press 1 to return this book:\n";
+			cout<<"Press 2 to continue searching:\nYour choice: ";
+			cin>>checkChoice;
 			if (checkChoice == 1)
 			{
 				checkInBook(BookPtr);
@@ -274,8 +274,8 @@ void searchCheckoutBooks(Book* BookPtr,User* RegUserPtr)//Takes in FirstBook as 
 	}
 	if (BookPtr==nullptr)
 	{
-		std::cout<<"There are no books to return\n";
-		std::cout<<"-------------------------------------------------------------------\n";
+		cout<<"There are no books to return\n";
+		cout<<"-------------------------------------------------------------------\n";
 
 	}
 }
@@ -290,16 +290,16 @@ void addBook(Book* Bookptr)//Takes in firstBook as a pointer and Prompts user to
 	cout << "Enter Title you want to search\n";
 	cin.clear();
 	cin.sync();
-	getline(std::cin, nameParam);
+	getline(std::cin, nameParam); //Allows me to take in string WITH SPACES // Takes in Title
 	cout<<"\nPlease enter the author of the book: ";
 	cin.clear();
 	cin.sync();
-	getline(std::cin, authorParam);
+	getline(std::cin, authorParam); //Allows me to take in string WITH SPACES // Takes in Author
 	cout<<"\nPlease enter the ISBN of the book: ";
-	cin >> ISBNParam;
+	cin >> ISBNParam; // Takes in ISBN
 	cout<<"\nPlease enter 1 if the book is available.";
 	cout<<"\nPlease enter 2 if the book is un-available.";
-	cin>>availableParam;
+	cin>>availableParam; //Sets availability of book
 	if(availableParam == 1)
 		{
 			isAvailableParam = true;
@@ -308,16 +308,16 @@ void addBook(Book* Bookptr)//Takes in firstBook as a pointer and Prompts user to
 		{
 			isAvailableParam = false;
 		}
-	Book* NewBookptr = new Book(nameParam,authorParam,ISBNParam,availableParam);
+	Book* NewBookptr = new Book(nameParam,authorParam,ISBNParam,availableParam); //Creates new book using info taken in
 	while (Bookptr != nullptr)
 	{
-		if(Bookptr->getNext() == nullptr)
+		if(Bookptr->getNext() == nullptr) //If book pointer is at the end of the list
 		{
-			Bookptr->setNext(NewBookptr);
-			NewBookptr->setPrev(Bookptr);
+			Bookptr->setNext(NewBookptr); //Sets a books Next to the new book in custom linked list
+			NewBookptr->setPrev(Bookptr); //Sets new books Previous in custom linked list
 			break;
 		}
-		Bookptr = Bookptr->getNext();
-		std::cout<<"-------------------------------------------------------------------\n";
+		Bookptr = Bookptr->getNext(); // Iterates through books, till reach end
+		cout<<"-------------------------------------------------------------------\n";
 	}
 }
