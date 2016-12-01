@@ -1,113 +1,21 @@
 #include "Book.h"
-#include <ostream>
-#include <assert.h>
-#include <string>
-#include <iostream>
-#include <vector>
-#include <list>
-
-/*void PrintList(list<Book>& books)
-{
-	cout << "Book names: " << endl;
-	list<Book>::iterator pos;
-	for (pos = books.begin(); pos != books.end(); pos++)
-	{
-		cout << "Name: " << pos->getTitle() << endl;
-	}
-}*/
-/*void searchForBookByISBN(list<Book>& books, long long int search)
-{
-	list<Book>::iterator pos;
-	pos = books.begin();
-	for (pos = books.begin(); pos != books.end(); pos++){
-		
-		if(search == pos->getISBN())
-		{
-			cout << "This book has that ISBN: "<< pos->getTitle() << endl;
-			break;
-		}
-		else{
-			cout << "No book with that ISBN" << endl;
-			break;
-		}
-	}
-}*/
-
-void printDetialsStart(Book * first)
-{
-	cout<< "___________________" <<endl;
-	Book* nextBook = first;
-	while(nextBook != NULL)
-	{
-		cout<< "Books: " << nextBook->getTitle()<<endl;
-
-		nextBook = nextBook->getNext();
-	}
-	cout<< "___________________" <<endl;
-
-}
-Book* searchByName(string name, Book* first)
-{
-	Book* nextBook = first;
-	while(nextBook != NULL)
-	{
-		if(name == nextBook->getTitle())
-		{
-			return nextBook;
-		}
-		else 
-		{
-			nextBook = nextBook->getNext();
-		}
-	}
-	return NULL;
-	
-}
-Book* searchByAuthor(string name, Book* first)
-{
-	Book* nextBook = first;
-	while(nextBook != NULL)
-	{
-		if(name == nextBook->getAuthor())
-		{
-			return nextBook;
-		}
-		else 
-		{
-			nextBook = nextBook->getNext();		
-		}
-	}
-	return NULL;
-	
-}
-Book* searchByISBN(long long int search, Book* first)
-{
-	Book* nextBook = first;
-	while(nextBook != NULL)
-	{
-		if(search == nextBook->getISBN())
-		{
-			return nextBook;
-		}
-		else 
-		{
-			nextBook = nextBook->getNext();		
-		}
-	}
-	return NULL;
-
-}
-
-
-
+#include "Functions.h"
+#include "Book.h"
+#include "Menu.h"
+#include "User.h"
 void main()
 {
+	unsigned int Introchoice = 0;//Choice int for Welcome Screen
+	unsigned int GuestChoice = 0;//Choice int for Guest Screen
+	unsigned int UserChoice = 0;//Choice int for User Screen
+	unsigned int AdminChoice = 0;//Choice int for Admin Screen
+
 	Book *tkamb = new Book("To Kill A Mocking Bird", "Harper Lee",1234567891234,false);
 	Book *sl = new Book("Schindlers List", "Thomas Keneally",1234567892345,false);
 	Book *it = new Book("IT", "Stephen King",1234567893456,true);
-	Book *tgm = new Book("The Green Mile", "Stephen King",1234567894567,false);
+	Book *tgm = new Book("The Mile", "Andrew Christ",1234567894567,false);
 	Book *b = new Book("Barry Bio", "Barry O' Brien",1234567895678,true); 
-
+	
 	tkamb->setNext(sl);
 	sl->setNext(it);
 	it->setNext(tgm);
@@ -117,29 +25,115 @@ void main()
 	tgm->setPrev(it);
 	it->setPrev(sl);
 	sl->setPrev(tkamb);
-	
-	long long int numsearch;
-	int selection;
-	int choice;
+
+
+	User *Barry = new User("Barry","O'Brien");
+	User *Brendan = new User("Bredan","Potts");
+	User *John = new User("John","Barret");
+
+
+	Barry->setNext(Brendan);
+	Brendan->setNext(John);
+	John->setPrev(Brendan);
+	Brendan->setPrev(Barry);
+
+	Barry->setIsAdmin(true);
+	User* firstUserPtr = Barry;//Pointer to firstUser in list
+	User* CurrentUser = John;//Pointer toCurrent user, Does not matter at beginning of program
+	Book* CurrentBookptr = tkamb;
+	Book* firstBookptr = tkamb;
+
 	string search;
+	long long int numsearch;
 
-	cout << "_________________" << endl << "Welcome to the Library" << endl << "Select an option" << endl;
-	cout << "1: Print Book List" << endl << "2: Search" << endl << "_________________" << endl << "Enter Choice" << endl;
-	cin >> selection;
-	/*
-	switch(selection)
-	{
-	case 1:
-		printDetialsStart(tkamb);
-	case 2:
-		searchByName(titlesearch, tkamb);
-	case 3:
-		cout << "Not a valid Option" << endl;
-	}*/
 
-	if ( selection == 1)
+	while (Introchoice !=9)//Main While Loop of Program
+	{
+		Introchoice = introPage();//Calls welcome Page menu
+		if (Introchoice == 1)//If Guest Choice
+		{
+			GuestChoice = guestPage();//Calls Guest Menu
+			while (GuestChoice!=9)
+			{
+				if(GuestChoice == 1)//If Search is chosen
+				{
+					CurrentBookptr = searchBooks(firstBookptr);//Search Books
+					break;
+				}
+				else//Invalid Choice
+				{
+					std::cout<<"Error,Choice not valid!\nPlease Enter your choice: ";
+					std::cin>>GuestChoice;
+				}
+			}
+
+		}
+		else if(Introchoice == 2)//If logging in as user
+		{
+			CurrentUser = login(firstUserPtr);//Calls Login in function and sets Current User as the logged in user
+			while (UserChoice!=9)//While menu choice is not 9
+			{
+				UserChoice = userPage();//Calls UserPage Menu
+				if(UserChoice == 1)
+				{
+					CurrentBookptr = searchBooks(firstBookptr);//Searching Books and setting CurrentBookptr to book selected
+				}
+				else if(UserChoice == 2)
+				{
+					cout << "Enter Title you want to search\n";
+					cin.clear();
+					cin.sync();
+					getline(std::cin, search);
+					CurrentBookptr = searchByName(search,firstBookptr);//Searching Books and setting CurrentBookptr to book selected
+					checkOutBook(CurrentBookptr,CurrentUser);//Checking out book function is called 
+				}
+				else if(UserChoice == 3)
+				{
+					searchCheckoutBooks(firstBookptr,CurrentUser);//Searches checked out books on CurrentUser
+
+				}
+				else if(UserChoice == 9)
+				{
+				}
+				else
+				{
+					std::cout<<"Error,Choice not valid!\nPlease Enter your choice: ";
+					std::cin>>UserChoice;
+				}
+			}
+		}
+		else if(Introchoice == 3)//Admin Menu is called
+		{
+			CurrentUser = login(firstUserPtr);//Sets Current user to Admin Logged in
+			if(CurrentUser->getIsAdmin()==true)//Checks if User has Admin Permission
+			{
+				while (AdminChoice!=9)
+				{
+					AdminChoice = adminPage();//Prints admin Menu and sets AdminChoice to the choice chosen
+					if (AdminChoice == 1)//Adding Book option is selected
+					{
+						addBook(firstBookptr);//Calls addBookFunction
+						printDetialsStart(firstBookptr);//Prints out Books
+					}
+					
+				}
+			}
+			else//If user does not have admin permission
+			{
+				std::cout<<"User is not an admin\n";
+				std::cout<<"----------------------------------------------------\n\n";
+			}
+		}
+		
+		
+	 
+		
+		
+
+	/*if ( selection == 1)
 	{
 		printDetialsStart(tkamb);
+
 	}
 	else if (selection == 2)
 	{
@@ -203,6 +197,8 @@ void main()
 	else{cout<<"Not a valid option";}
 	
 
-	
+	*/
 	system("pause");
+	
+}
 }
